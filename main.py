@@ -1,12 +1,30 @@
 from bs4 import BeautifulSoup
 import requests
-import os.path
+import time
 
 
 headers = {
     "Accept": "*/*",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
 }
+
+def get_pages_html_list() -> list:
+    pagination = 1
+    lst = [] #список, который будет содержать тексты с html разметкой страниц с объявлениями на машины
+
+    while True:
+        url = f'https://cars.av.by/filter?brands[0][brand]=1126&brands[0][model]=2424&brands[0][generation]=2264&year[min]=2014&transmission_type=2&engine_type[0]=1&page={pagination}'
+        page = get_source_pages(url)
+        lst.append(page)
+
+        bs = BeautifulSoup(page, 'lxml')
+
+        if bs.find('span', class_ = 'button__text', string = 'Показать ещё') == None: #больше нет страниц (эта - последняя)
+            break
+
+        pagination += 1
+
+    return lst
 
 
 def get_source_pages(url: str) -> str:
@@ -20,23 +38,22 @@ def get_source_pages(url: str) -> str:
     return page
 
 
+def get_elements_from_html(filename: str) -> list:
+    with open(f'htmls/{filename}', encoding='utf-8') as file:
+        src = file.read()
+
+    print(src)
+
+
 def main():
-    pagination = 1
-    if not os.path.exists('htmls'):
-        os.mkdir('htmls')
-    while True:
-        url = f'https://cars.av.by/filter?brands[0][brand]=1126&brands[0][model]=2424&brands[0][generation]=2264&year[min]=2014&transmission_type=2&engine_type[0]=1&page={pagination}'
-        page = get_source_pages(url)
+    # get_pages_url()
 
-        with open(f"htmls/source{pagination}.html", "w", encoding='utf-8') as file:
-            file.write(page)
+    pages_lst = get_pages_html_list()
 
-        bs = BeautifulSoup(page, 'lxml')
-
-        if bs.find('span', class_ = 'button__text', string = 'Показать ещё') == None: #больше нет страниц (эта - последняя)
-            break
-
-        pagination += 1
+    # for lst in pages_lst:
+    #     print(lst[:1000])
+    #     print('\n\n*******************************')
+    #     time.sleep(10)
 
 
 if __name__ == '__main__':
