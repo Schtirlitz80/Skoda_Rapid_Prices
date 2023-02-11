@@ -27,22 +27,25 @@ def get_pages_html_list() -> list:
     return lst
 
 
-def get_elements_from_html(filename: str) -> list:
-    with open(f'htmls/{filename}', encoding='utf-8') as file:
-        src = file.read()
+def get_car_cards_from_html(html: str) -> list:
+    cards_list = []
+    soup = BeautifulSoup(html, 'lxml')
+    cards = soup.find_all('div', class_='listing-item')
 
-    print(src)
+    for card in cards:
+        cards_list.append(card)
+
+    return cards_list
 
 
 def main():
-    # get_pages_url()
-
     pages_lst = get_pages_html_list()
 
-    # for page in pages_lst:
-    #     print(page[:2000])
-    #     time.sleep(5)
+    cards_list = []
 
+    for page_html in pages_lst:
+        cards = get_car_cards_from_html(page_html)
+        cards_list.append(cards)
 
 
 if __name__ == '__main__':
