@@ -50,10 +50,6 @@ def main():
 
     pages_lst = get_pages_html_list()
 
-    # for lst in pages_lst:
-    #     print(lst[:1000])
-    #     print('\n\n*******************************')
-    #     time.sleep(10)
 
 
 if __name__ == '__main__':
