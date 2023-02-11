@@ -14,7 +14,7 @@ def get_pages_html_list() -> list:
 
     while True:
         url = f'https://cars.av.by/filter?brands[0][brand]=1126&brands[0][model]=2424&brands[0][generation]=2264&year[min]=2014&transmission_type=2&engine_type[0]=1&page={pagination}'
-        page = get_source_pages(url)
+        page = requests.get(url, headers=headers).text
         lst.append(page)
 
         bs = BeautifulSoup(page, 'lxml')
@@ -25,17 +25,6 @@ def get_pages_html_list() -> list:
         pagination += 1
 
     return lst
-
-
-def get_source_pages(url: str) -> str:
-    """
-    Returns an html text of the source url
-    :param url:
-    :return:
-    """
-    page = requests.get(url, headers=headers).text
-    # print(page)
-    return page
 
 
 def get_elements_from_html(filename: str) -> list:
@@ -49,6 +38,10 @@ def main():
     # get_pages_url()
 
     pages_lst = get_pages_html_list()
+
+    # for page in pages_lst:
+    #     print(page[:2000])
+    #     time.sleep(5)
 
 
 
