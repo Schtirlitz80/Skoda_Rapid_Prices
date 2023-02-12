@@ -1,4 +1,4 @@
-from main import get_car_cards_from_html_page
+from av_by import get_car_cards_from_html_page
 from pprint import pprint
 
 
