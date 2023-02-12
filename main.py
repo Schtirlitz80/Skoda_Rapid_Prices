@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-import time
+from pprint import pprint
 
 
 headers = {
@@ -27,14 +27,23 @@ def get_pages_html_list() -> list:
     return lst
 
 
-def get_car_cards_from_html(html: str) -> list:
-    cards_list = []
+def get_car_cards_from_html_page(html: str) -> list:
+    """
+    Gets all car cards from html page (one of all). Don't forget about pagination
+    :param html:
+    :return:
+    """
+    page_cards_list = []
     soup = BeautifulSoup(html, 'lxml')
     cards = soup.find_all('div', class_='listing-item')
 
     for card in cards:
         car_name = card.find('h3', class_='listing-item__title').text
-        car_img = card.find('img').get('src')
+
+        try:
+            car_img = card.find('div', class_='listing-item__photo').find('img').get('data-src')
+        except Exception as _ex:
+            car_img = 'No image'
 
         year_descr_km_block = card.find('div', class_='listing-item__params').find_all('div')
         year = year_descr_km_block[0].text
@@ -45,7 +54,10 @@ def get_car_cards_from_html(html: str) -> list:
         price_usd = card.find('div', class_='listing-item__priceusd').text
 
         car_url = card.find('a').get('href')  # url будет уникальным идентификатором в базе данных
-        cards_list.append(
+        car_url = f'https://cars.av.by{car_url}'
+
+        location = card.find('div', class_='listing-item__location').text
+        page_cards_list.append(
             {
                 "car": car_name,
                 "photo": car_img,
@@ -54,21 +66,36 @@ def get_car_cards_from_html(html: str) -> list:
                 "km": km,
                 "price": price,    # Нужно будет в дальнейшем проверять изменение цены и уведомлять об этом
                 "usd_price": price_usd,
-                "url": car_url
+                "url": car_url,
+                "location": location
             }
         )
 
-    return cards_list
+    return page_cards_list
 
 
-def main():
+def get_car_info_list() -> list:
+    """
+    Получает список словарей с данными машин со всех страниц (пагинация)
+    :return:
+    """
     pages_lst = get_pages_html_list()
 
     cards_list = []
 
     for page_html in pages_lst:
-        cards = get_car_cards_from_html(page_html)
-        cards_list.append(cards)
+        cards = get_car_cards_from_html_page(page_html)
+        cards_list += cards
+
+    return cards_list
+
+
+def main():
+    car_lst = get_car_info_list()
+
+    print('Первый элемент списка машин (тестовая печать):')
+    for item in car_lst[0]:
+      print(f'{item}: {car_lst[0][item]}')
 
 
 if __name__ == '__main__':
