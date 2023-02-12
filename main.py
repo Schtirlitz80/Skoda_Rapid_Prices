@@ -1,3 +1,9 @@
+"""
+Этот модуль предназначен для поиска машин Scoda Rapid I от 2014 года на сайте av.by.
+Все функции объединяет функция get_car_info_list(), вызов которой возвращает список
+словарей с машинами
+"""
+
 from bs4 import BeautifulSoup
 import requests
 from pprint import pprint
