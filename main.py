@@ -34,19 +34,29 @@ def get_car_cards_from_html(html: str) -> list:
 
     for card in cards:
         car_name = card.find('h3', class_='listing-item__title').text
+        car_img = card.find('img').get('src')
 
         year_descr_km_block = card.find('div', class_='listing-item__params').find_all('div')
         year = year_descr_km_block[0].text
         car_description = year_descr_km_block[1].text
         km = year_descr_km_block[2].text
-        km = ''
 
         price = card.find('div', class_='listing-item__price').text
         price_usd = card.find('div', class_='listing-item__priceusd').text
 
-
-        car_url = ''
-        cards_list.append(card)
+        car_url = card.find('a').get('href')  # url будет уникальным идентификатором в базе данных
+        cards_list.append(
+            {
+                "car": car_name,
+                "photo": car_img,
+                "year": year,
+                "descriprion": car_description,
+                "km": km,
+                "price": price,    # Нужно будет в дальнейшем проверять изменение цены и уведомлять об этом
+                "usd_price": price_usd,
+                "url": car_url
+            }
+        )
 
     return cards_list
 
