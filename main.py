@@ -33,6 +33,19 @@ def get_car_cards_from_html(html: str) -> list:
     cards = soup.find_all('div', class_='listing-item')
 
     for card in cards:
+        car_name = card.find('h3', class_='listing-item__title').text
+
+        year_descr_km_block = card.find('div', class_='listing-item__params').find_all('div')
+        year = year_descr_km_block[0].text
+        car_description = year_descr_km_block[1].text
+        km = year_descr_km_block[2].text
+        km = ''
+
+        price = card.find('div', class_='listing-item__price').text
+        price_usd = card.find('div', class_='listing-item__priceusd').text
+
+
+        car_url = ''
         cards_list.append(card)
 
     return cards_list
