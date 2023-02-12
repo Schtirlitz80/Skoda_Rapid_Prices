@@ -32,9 +32,14 @@ async def av_by(message: types.Message):
 
     try:
         car_list = get_car_info_list()
+        print(len(car_list))
+
         for car in car_list:  #пока только для четырёх элементов
             car_name = car["car"]
+
             car_img = car["photo"]
+            print(car_img)
+
             year = car["year"]
             car_description = car["descriprion"]
             km = car["km"]
@@ -45,9 +50,12 @@ async def av_by(message: types.Message):
 
             photo_caption = f'{car_name}\n{year}\n{car_description}\n{km}\n{price} ({price_usd})\n{car_url}\n{location}'
 
-            await bot.send_photo(chat_id=message.chat.id,
-                                 photo=car_img,
-                                 caption=photo_caption)
+            if car_img != "No image":
+                await bot.send_photo(chat_id=message.chat.id,
+                                     photo=car_img,
+                                     caption=photo_caption)
+            else:
+                await message.answer(photo_caption)
 
     except Exception as _ex:
         print(_ex)
