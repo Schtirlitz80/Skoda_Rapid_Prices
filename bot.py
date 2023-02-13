@@ -34,7 +34,7 @@ async def av_by(message: types.Message):
         car_list = get_car_info_list()
         print(len(car_list))
 
-        for car in car_list:  #пока только для четырёх элементов
+        for car in car_list:
             car_name = car["car"]
 
             car_img = car["photo"]

@@ -14,6 +14,7 @@ headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
 }
 
+
 def get_pages_html_list() -> list:
     pagination = 1
     lst = [] #список, который будет содержать тексты с html разметкой страниц с объявлениями на машины
