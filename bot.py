@@ -40,7 +40,7 @@ async def av_by(message: types.Message):
             car_img = car["photo"]
             print(car_img)
 
-            year = car["year"]
+            car_year = car["year"]
             car_description = car["descriprion"]
             km = car["km"]
             price = car["price"]
@@ -48,7 +48,7 @@ async def av_by(message: types.Message):
             car_url = car["url"]
             location = car["location"]
 
-            photo_caption = f'{car_name}\n{year}\n{car_description}\n{km}\n{price} ({price_usd})\n{car_url}\n{location}'
+            photo_caption = f'{car_name}\n{car_year}\n{car_description}\n{km}\n{price} ({price_usd})\n{car_url}\n{location}'
 
             if car_img != "No image":
                 await bot.send_photo(chat_id=message.chat.id,
