@@ -59,8 +59,6 @@ def put_list_into_db(lst: list) -> list:
             car_url = car["url"]
             location = car["location"]
 
-            # ids = cursor.execute('SELECT user_id FROM users WHERE user_id = ?', (message.from_user.id,))
-            # использовать PREPAIRED MESSAGE
             sql_query = f"""INSERT INTO av_cars(car_name, car_img, car_year, car_description, km, price, price_usd, car_url, location)
                                 VALUES ('{car_name}', '{car_img}', '{car_year}', '{car_description}', '{km}', '{price}', '{price_usd}', '{car_url}', '{location}')
                         """
@@ -71,4 +69,5 @@ def put_list_into_db(lst: list) -> list:
                 print(_ex)
 
         d_base.commit()
+
     return new_cars_lst
