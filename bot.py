@@ -8,6 +8,7 @@ from aiogram import Bot, executor, Dispatcher, types
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 
 from av_by import get_car_info_list
+from database import put_list_into_db
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -38,39 +39,43 @@ async def av_by(message: types.Message):
 
 @dp.callback_query_handler()
 async def av_by_all(callback: types.CallbackQuery):
-    if callback.data != 'av_by_all':
-        return
-    await callback.answer('Данные с сайта av.by:\nПолучаю данные. Подождите...')
-    try:
-        car_list = get_car_info_list()
-        print(len(car_list))
+    if callback.data == 'av_by_all':
+        await callback.answer('Данные с сайта av.by:\nПолучаю данные. Подождите...')
+        try:
+            car_list = get_car_info_list()
+            put_list_into_db(car_list)  #помещаем данные в базу данных (чтобы потом отличать новые)
+            print(len(car_list))
 
-        for car in car_list:
-            car_name = car["car"]
+            for car in car_list:
+                car_name = car["car"]
 
-            car_img = car["photo"]
-            print(car_img)
+                car_img = car["photo"]
+                print(car_img)
 
-            car_year = car["year"]
-            car_description = car["description"]
-            km = car["km"]
-            price = car["price"]
-            price_usd = car["usd_price"]
-            car_url = car["url"]
-            location = car["location"]
+                car_year = car["year"]
+                car_description = car["description"]
+                km = car["km"]
+                price = car["price"]
+                price_usd = car["usd_price"]
+                car_url = car["url"]
+                location = car["location"]
 
-            photo_caption = f'{car_name}\n{car_year}\n{car_description}\n{km}\n{price} ({price_usd})\n{car_url}\n{location}'
+                photo_caption = f'{car_name}\n{car_year}\n{car_description}\n{km}\n{price} ({price_usd})\n{car_url}\n{location}'
 
-            if car_img != "No image":
-                await bot.send_photo(chat_id=callback.from_user.id,
-                                     photo=car_img,
-                                     caption=photo_caption)
-            else:
-                await callback.answer(photo_caption)
+                if car_img != "No image":
+                    await bot.send_photo(chat_id=callback.from_user.id,
+                                         photo=car_img,
+                                         caption=photo_caption)
+                else:
+                    await callback.answer(photo_caption)
 
-    except Exception as _ex:
-        print(_ex)
-        await callback.answer('Не могу получить данные с сайта av.by...')
+        except Exception as _ex:
+            print(_ex)
+            await callback.answer('Не могу получить данные с сайта av.by...')
+
+    else:
+        # car_list = get_new_cars_list()
+        pass
 
 
 

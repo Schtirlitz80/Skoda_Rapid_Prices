@@ -97,6 +97,11 @@ def get_car_info_list() -> list:
     return cards_list
 
 
+def get_new_adverts_list() -> list:
+    all_adverts = get_car_info_list()
+
+
+
 def main():
     car_lst = get_car_info_list()
 
