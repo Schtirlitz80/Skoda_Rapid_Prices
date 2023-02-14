@@ -2,3 +2,5 @@
 /.idea/
 /config.py
 /cars_av_by.db-journal
+/cars_av_by.db
+/TODO.txt
