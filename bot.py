@@ -41,7 +41,7 @@ async def av_by(message: types.Message):
             print(car_img)
 
             car_year = car["year"]
-            car_description = car["descriprion"]
+            car_description = car["description"]
             km = car["km"]
             price = car["price"]
             price_usd = car["usd_price"]

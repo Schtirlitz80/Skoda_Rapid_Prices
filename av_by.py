@@ -69,7 +69,7 @@ def get_car_cards_from_html_page(html: str) -> list:
                 "car": car_name,
                 "photo": car_img,
                 "year": year,
-                "descriprion": car_description,
+                "description": car_description,
                 "km": km,
                 "price": price,    # Нужно будет в дальнейшем проверять изменение цены и уведомлять об этом
                 "usd_price": price_usd,
