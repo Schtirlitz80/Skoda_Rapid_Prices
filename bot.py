@@ -7,7 +7,7 @@ from config import API_TOKEN
 from aiogram import Bot, executor, Dispatcher, types
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 
-from av_by import get_car_info_list
+from av_by import get_cars_info_list
 from database import put_list_into_db
 
 bot = Bot(token=API_TOKEN)
@@ -42,7 +42,7 @@ async def av_by_all(callback: types.CallbackQuery):
     if callback.data == 'av_by_all':
         await callback.answer('Данные с сайта av.by ПО ВСЕМ машинам:\nПолучаю данные. Подождите...')
         try:
-            car_list = get_car_info_list()
+            car_list = get_cars_info_list()
             put_list_into_db(car_list)  #помещаем данные в базу данных (чтобы потом отличать новые)
         except Exception as _ex:
             print(_ex)
@@ -51,7 +51,7 @@ async def av_by_all(callback: types.CallbackQuery):
     elif callback.data == 'av_by_new':
         await callback.answer('Данные с сайта av.by ПО НОВЫМ объявлениям:\nПолучаю данные. Подождите...')
         try:
-            car_list = get_car_info_list()
+            car_list = get_cars_info_list()
             new_car_lst = put_list_into_db(car_list)  # помещаем данные в базу данных (чтобы потом отличать новые)
             car_list = new_car_lst
         except Exception as _ex:

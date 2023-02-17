@@ -1,10 +1,10 @@
-from av_by import get_car_cards_from_html_page
+from av_by import get_car_cards_from_html
 from database import put_list_into_db
 
 with open('for_test.html', encoding='utf-8') as file:
     src_html = file.read()
 
-cards_lst = get_car_cards_from_html_page(src_html)
+cards_lst = get_car_cards_from_html(src_html)
 
 # for card in cards_lst:
 #     print(f'__________________\nCard:\n{card.text[:200]}')

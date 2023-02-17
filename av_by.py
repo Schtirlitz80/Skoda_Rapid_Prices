@@ -15,7 +15,7 @@ headers = {
 }
 
 
-def get_pages_html_list() -> list:
+def get_pages_htmls() -> list:
     pagination = 1
     lst = [] #список, который будет содержать тексты с html разметкой страниц с объявлениями на машины
 
@@ -34,7 +34,7 @@ def get_pages_html_list() -> list:
     return lst
 
 
-def get_car_cards_from_html_page(html: str) -> list:
+def get_car_cards_from_html(html: str) -> list:
     """
     Gets all car cards from html page (one of all). Don't forget about pagination
     :param html:
@@ -81,29 +81,29 @@ def get_car_cards_from_html_page(html: str) -> list:
     return page_cards_list
 
 
-def get_car_info_list() -> list:
+def get_cars_info_list() -> list:
     """
     Получает список словарей с данными машин со всех страниц (пагинация)
     :return:
     """
-    pages_lst = get_pages_html_list()
+    pages_lst = get_pages_htmls()
 
     cards_list = []
 
     for page_html in pages_lst:
-        cards = get_car_cards_from_html_page(page_html)
+        cards = get_car_cards_from_html(page_html)
         cards_list += cards
 
     return cards_list
 
 
 def get_new_adverts_list() -> list:
-    all_adverts = get_car_info_list()
+    all_adverts = get_cars_info_list()
 
 
 
 def main():
-    car_lst = get_car_info_list()
+    car_lst = get_cars_info_list()
 
     print('Первый элемент списка машин (тестовая печать):')
     for item in car_lst[0]:
