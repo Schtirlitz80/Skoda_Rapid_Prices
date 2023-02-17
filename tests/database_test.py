@@ -17,3 +17,7 @@ class DatabaseTest(TestCase):
         put_list_into_db(lst)
 
         self.assertTrue(os.path.exists('cars_av_by.db'))
+
+
+if __name__ == '__main__':
+    main()
