@@ -8,7 +8,6 @@ class AvByTest(TestCase):
         + 1) get_pages_html_list возвращает список
         + 2) все элементы списка - тексты
         + 3) все тексты являются html разметкой
-        :return:
         """
         self.assertEqual(type(get_pages_htmls()), list)
 
@@ -20,7 +19,6 @@ class AvByTest(TestCase):
         """
         1) возвращает список
         2) все элементы списка - словари
-        :return:
         """
         self.assertEqual(type(get_cars_info_list()), list)
         for element in get_cars_info_list():
