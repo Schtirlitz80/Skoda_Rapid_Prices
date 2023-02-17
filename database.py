@@ -1,25 +1,6 @@
 import sqlite3
 
 
-db = sqlite3.connect('cars_av_by.db')
-with db:
-    cursor = db.cursor()
-    cursor.execute(
-        """CREATE TABLE IF NOT EXISTS av_cars(
-                        id INTEGER PRIMARY KEY,
-                        car_name TEXT,
-                        car_img TEXT,
-                        car_year TEXT,
-                        car_description TEXT,
-                        km TEXT,
-                        price TEXT,
-                        price_usd TEXT,
-                        car_url TEXT unique,
-                        location TEXT
-        )"""
-    )
-
-
 def put_list_into_db(lst: list) -> list:
     """
     Получает список машин, пытается добавить их в базу данных.
